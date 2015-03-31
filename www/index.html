@@ -13,7 +13,7 @@
 <!-- or can go to zimjs.com and createjs.com for individual modules -->
 
 <script src="js/view.js"></script>
-<script src="js/controller.js"></script>
+<!--<script src="js/controller.js"></script>-->
 
 <style>
 	body {margin:0px; padding:0px; background-color:#000;}
@@ -38,53 +38,67 @@ var stage, stageW, stageH;
 frame.on("ready", function() {	
 	zog("ready from ZIM Frame");
 	
+	zog(app);
+	
 	stage = frame.stage;
 	stageW = frame.stageW;
 	stageH = frame.stageH;
 	
-	var gridManager = new zim.GridManager();
-	var guideManager = new zim.GuideManager();
+	var contentPath = "image/";
+	var manifest = [{src:"logo.png", id:"logo"}, {src:"house.png", id:"house"}, {src:"paw.png", id:"paw"}, {src:"headline.png", id:"headline"}, {src:"feed.png", id:"feed"}, {src:"love.png", id:"love"}, {src:"loveme.png", id:"loveme"}, {src:"feedme.png", id:"feedme"}  ];
+	var preload = new createjs.LoadQueue(false, contentPath);
+	preload.on("complete", pet);
+	preload.loadManifest(manifest);
 	
-	//vertical pages
-	var vLayoutManager = new zim.LayoutManager();
-	var vp = app.makeVerticalPages(vLayoutManager, gridManager, guideManager);
+	function pet(){
 	
-	var vpages = new zim.Pages(
-		stage,[
-			{page: vp.main, swipe: [vp.info, vp.info, vp.info, vp.info]},
-			{page: vp.info, swipe: [vp.main, vp.main, vp.main, vp.main]}
-		], "slide", 400);
-	
-	//prepare hotspots;
-	var vHS = app.makeHotSpots(vp, vpages, "vertical");
-
-	// put resizing code in here (scaling="full" only)
-	frame.on("resize", function(e) {
-		stageW = frame.stageW;
-		stageH = frame.stageH;
+		var gridManager = new zim.GridManager();
+		var guideManager = new zim.GuideManager();
 		
-		//custom scaling
-		vLayoutManager.resize();
-		gridManager.resize();
-		guideManager.resize();
-		zim.scaleTo(vp.info, stage, 100, 100, "both");
+		//vertical pages
+		var vLayoutManager = new zim.LayoutManager();
+		var vp = app.makeVerticalPages(vLayoutManager, gridManager, guideManager, preload);
 		
-		stage.update();
-	}); // end of resizing
+		var vpages = new zim.Pages(
+			stage,[
+				{page: vp.main, swipe: [vp.info, vp.info, vp.info, vp.info]},
+				{page: vp.info, swipe: [vp.main, vp.main, vp.main, vp.main]}
+			], "slide", 400);
+		
+		//prepare hotspots;
+		//var vHS = app.makeHotSpots(vp, vpages, "vertical");
 	
-	// put orientation change code in here
-	frame.on("orientation", orientate);
+		// put resizing code in here (scaling="full" only)
+		frame.on("resize", function(e) {
+			stageW = frame.stageW;
+			stageH = frame.stageH;
+			
+			//custom scaling
+			vpages.resize();
+			vLayoutManager.resize();
+			gridManager.resize();
+			guideManager.resize();
+			zim.scaleTo(vp.info, stage, 100, 100, "both");
+			
+			stage.update();
+		}); // end of resizing
+		
+		// put orientation change code in here
+		/*frame.on("orientation", orientate);
+		
+		function orientate(e) {
+			zog(frame.orientation);
+				stage.addChild(vpages);
+				vpages.enable();
+				vLayoutManager.enable();
+			stage.update();
+		}; // end of orientation
+		
+		orientate();*/
+		stage.addChild(vpages);
+		stage.update();	
 	
-	function orientate(e) {
-		zog(frame.orientation);
-			stage.addChild(vpages);
-			vpages.enable();
-			vLayoutManager.enable();
-		stage.update();
-	}; // end of orientation
-	
-	orientate();
-	stage.update();	
+	} // end of pet
 	
 }); // end of ready
 </script>

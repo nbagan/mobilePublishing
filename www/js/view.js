@@ -1,53 +1,66 @@
+
+// view
 zog("hi from view.js");
-/*
-var contentPath = "image/";
-var manifest = [{src:"puphouse.png", id:"house"}];
-var preload = new createjs.LoadQueue(true, contentPath);
-preload.on("complete", app);
-preload.loadManifest(manifest);
-*/
+
 
 var app = function(app) {
 	
-	app.makeVerticalPages = function(layoutManager, gridManager, guideManager) {
+	app.makeVerticalPages = function(layoutManager, gridManager, guideManager, preload) {
+		
+		zog("pages");
+		
 		p = {};
+		
+		//-----FIRST PAGE-----//
 		
 		p.main = new createjs.Container();
 		p.main.name = "main";
 		p.main.setBounds(0, 0, stageW, stageH);
 		
-		var content = p.main.content = new createjs.Container();
-		content.setBounds(0,0,600,600);
+		var content = new createjs.Container();
+		content.setBounds(0,0,360,640);
 		p.main.addChild(content);
 
-		var title = new createjs.Text("test", "20px Arial", "#333333");
-		title.setBounds(0, 0, 100, 100);
-		title.x = 0;
-		title.y= 0;
- 		title.textBaseline = "alphabetic";
+		var title = new createjs.Bitmap(preload.getResult("logo"));
+		title.x = 120;
+		title.y = 100;
 		content.addChild(title);
 		
-		var house = new createjs.Bitmap("image/puphouse.png");
-		house.setBounds(0, 0, 350, 350);
+		var house = new createjs.Bitmap(preload.getResult("house"));
+		house.x = 60;
+		house.y = 100;
 		content.addChild(house);
 		
+		var paw = new createjs.Bitmap(preload.getResult("paw"));
+		paw.x = 70;
+		paw.y = 200;
+		content.addChild(paw);
+		
+		var headline = new createjs.Bitmap(preload.getResult("headline"));
+		headline.x = 130;
+		headline.y = 420;
+		content.addChild(headline);
+				
 		//percentages
 		var mainParts = [
-			{object: house, marginLeft: 10, maxHeight: 50, width: 50, valign: "top"},
-			{object: title, marginTop:0, maxWidth:80, minHeight:20, align:"middle", valign:"top"} 
-			//{object: circle, marginLeft:100, maxHeight: 40, width: 40, valign:"bottom"},
-			//{object: circle2, marginLeft:100, maxHeight: 40, width: 40, valign:"bottom"}
+			{object: content, marginLeft: 0, maxHeight: 100, width: 100, valign: "top"},
+			{object: house, marginLeft: 10, maxHeight: 100, width: 100, valign: "top"},
+			{object: title, marginTop:0, maxWidth:100, minHeight:100, align:"middle", valign:"top"},
+			{object: paw, marginTop:0, maxWidth:100, minHeight:100, align:"middle", valign:"top"},
+			{object: headline, marginTop:0, maxWidth:100, minHeight:100, align:"middle", valign:"top"}	
 		];
 		
 		//function(holder, regions, lastMargin, backgroundColor, vertical, regionShape, scalingObject, hideKey)
-		var mainLayout = new zim.Layout(p.main, mainParts, 10, "#D4F9C0", true, null, stage);
+		var mainLayout = new zim.Layout(p.main, mainParts, 10, "#FF6666", true, null, stage);
 
 		layoutManager.add(mainLayout);
+		
+		//-----SECOND PAGE-----//
 		
 		p.info = new createjs.Container();
 		p.info.name = "info";
 		
-		var infoBacking = new zim.Rectangle(stageW, stageH, "#7EBEC7");
+		var infoBacking = new zim.Rectangle(stageW, stageH, "#FFF");
 		infoBacking.setBounds(0, 0, stageW, stageH);
 		p.info.addChild(infoBacking);
 		
@@ -58,8 +71,7 @@ var app = function(app) {
  		title.textBaseline = "alphabetic";
 		infoBacking.addChild(title);
 		
-		var pet = new createjs.Bitmap("image/pup.png");
-		pet.setBounds(-100, -100, 100, 100);
+		var pet = new createjs.Bitmap(preload.getResult("dog"));
 		pet.x = 200;
 		pet.y = 400;
 		infoBacking.addChild(pet);
@@ -70,43 +82,71 @@ var app = function(app) {
 			console.log("moving");
 		});
 		
-		var circle = zim.Circle (40, "black", null, null);
-		circle.setBounds(-40,-40,100,100);
-		circle.x = 400;
-		circle.y = 700;
-		infoBacking.addChild(circle);
+		var love = new createjs.Bitmap(preload.getResult("love"));
+		love.x = 150;
+		love.y = 500;
+		infoBacking.addChild(love);
 		
-		var circle2 = zim.Circle (40, "red", null, null);
-		circle2.setBounds(-40,-40,100,100);
-		circle2.x = 500;
-		circle2.y = 700;
-		infoBacking.addChild(circle2);
+		var food = new createjs.Bitmap(preload.getResult("feed"));
+		food.x = 200;
+		food.y = 500;
+		infoBacking.addChild(food);
 		
-		var star = new createjs.Shape();
-		star.graphics.beginFill("yellow").dp(100,100,50,5,0.6,-90);
-		star.alpha = 0;
-		infoBacking.addChild(star); 
-		
-		
-		circle.addEventListener("click", handleClick);
+		var loveme = new createjs.Bitmap(preload.getResult("loveme"));
+		loveme.x = 200;
+		loveme.y = 200;
+		loveme.alpha = 0;
+
+		var feedme = new createjs.Bitmap(preload.getResult("feedme"));
+		feedme.x = 200;
+		feedme.y = 200;
+		feedme.alpha = 0;
+
+		love.addEventListener("click", handleClick);
 			function handleClick(event){
 			console.log("love me");
-			createjs.Tween.get(star).to({alpha: 1},1000);
+			stage.addChild(loveme);
+			createjs.Tween.get(loveme).to({alpha: 1},500)
+			.wait(500)
+			.to({alpha:0}, 500);
+			createjs.Ticker.addEventListener("tick", stage);
+			stage.removeChild(feedme);
 		}
 		
-		circle2.addEventListener("click", clicked);
+		food.addEventListener("click", clicked);
 			function clicked(event){
 			console.log("feed me");
+			stage.addChild(feedme);
+			createjs.Tween.get(feedme).to({alpha:1},500)
+			.wait(500)
+			.to({alpha:0}, 500);
+			createjs.Ticker.addEventListener("tick", stage);
+			stage.removeChild(loveme);
 		}
+
+		function tick(event) {
+   			stage.update();   
+		}
+
+		/*function finishAnimation() {
+    		createjs.Ticker.removeEventListener("tick", stage);
+		}*/
 		
 		var petPage = [ 
-			{object: circle, marginLeft:500, maxHeight: 40, width: 40, valign:"bottom"},
-			{object: circle2, marginLeft:500, maxHeight: 40, width: 40, valign:"bottom"}
+			{object: title, marginLeft:0, maxHeight: 40, width: 40, valign:"bottom"},
+			{object: pet, marginLeft:0, maxHeight: 40, width: 40, valign:"bottom"},
+			{object: love, marginLeft:0, maxHeight: 40, width: 40, valign:"bottom"},
+			{object: food, marginLeft:0, maxHeight: 40, width: 40, valign:"bottom"}
 		];
+		
+		var secondLayout = new zim.Layout(p.main, petPage, 10, "#FFF", true, null, stage);
+
+		layoutManager.add(secondLayout);
 		
 		return p;
 		
-	}
+	}	
 	
 	return app;
-} (app || {});
+	
+}(app || {});
