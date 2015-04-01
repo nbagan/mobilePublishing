@@ -101,25 +101,25 @@ var app = function(app) {
 		content2.addChild(food);
 		
 		var loveme = new createjs.Bitmap(preload.getResult("loveme"));
-		loveme.x = 110;
-		loveme.y = 120;
+		loveme.x = 140;
+		loveme.y = 130;
 		loveme.alpha = 0;
 
 		var feedme = new createjs.Bitmap(preload.getResult("feedme"));
-		feedme.x = 110;
-		feedme.y = 120;
+		feedme.x = 140;
+		feedme.y = 130;
 		feedme.alpha = 0;
 		
 		var yum = new createjs.Text("yum yum yum!", "bold 20px Arial", "#00CCCC");
 		yum.x = 110;
-		yum.y = 180;
+		yum.y = 170;
 		yum.textBaseline = "alphabetic";
 		yum.alpha = 0;
 		content2.addChild(yum);
 		
 		var loveyou = new createjs.Text("I love you!", "bold 20px Arial", "#FF6666");
 		loveyou.x = 130;
-		loveyou.y = 180;
+		loveyou.y = 170;
 		loveyou.textBaseline = "alphabetic";
 		loveyou.alpha = 0;
 		content2.addChild(loveyou);
