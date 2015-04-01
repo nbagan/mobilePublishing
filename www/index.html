@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>ZIM Template</title> 
+<title>FurFriend</title> 
 <ol></ol>
 <!-- for CreateJS and ZIMjs http://zimjs.com - free to modify - Dan Zen 2015 -->
 <!-- see http://zimjs.com/templates for more templates and meta tags -->
@@ -45,7 +45,7 @@ frame.on("ready", function() {
 	stageH = frame.stageH;
 	
 	var contentPath = "image/";
-	var manifest = [{src:"logo.png", id:"logo"}, {src:"house.png", id:"house"}, {src:"paw.png", id:"paw"}, {src:"headline.png", id:"headline"}, {src:"feed.png", id:"feed"}, {src:"love.png", id:"love"}, {src:"loveme.png", id:"loveme"}, {src:"feedme.png", id:"feedme"}  ];
+	var manifest = [{src:"logo.png", id:"logo"}, {src:"house.png", id:"house"}, {src:"paw.png", id:"paw"}, {src:"headline.png", id:"headline"}, {src:"feed.png", id:"feed"}, {src:"love.png", id:"love"}, {src:"loveme.png", id:"loveme"}, {src:"feedme.png", id:"feedme"}, {src:"pet.png", id:"pet"} ];
 	var preload = new createjs.LoadQueue(false, contentPath);
 	preload.on("complete", pet);
 	preload.loadManifest(manifest);
