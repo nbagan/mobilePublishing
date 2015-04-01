@@ -64,20 +64,15 @@ var app = function(app) {
 		content2.setBounds(0,0,360,600);
 		p.info.addChild(content2);
 		
-		var barTop = new zim.Rectangle(450, 70, "#222");
+		var barTop = new zim.Rectangle(450, 50, "#222");
 		barTop.x = -20;
 		barTop.y = 0;
 		content2.addChild(barTop);
 		
-		var title2 = new createjs.Bitmap(preload.getResult("logo"));
-		title2.x = 70;
-		title2.y = 5;
-		content2.addChild(title2);
-		
-		var house2 = new createjs.Bitmap(preload.getResult("house"));
-		house2.x = 10;
-		house2.y = 5;
-		content2.addChild(house2);
+		var logoMini = new createjs.Bitmap(preload.getResult("logoMini"));
+		logoMini.x = 20;
+		logoMini.y = 10;
+		content2.addChild(logoMini);
 		
 		var pet = new createjs.Bitmap(preload.getResult("pet"));
 		pet.x = 80;
@@ -89,7 +84,6 @@ var app = function(app) {
 		pet.on("pressmove", function(e) {
 			console.log("moving");
 		});
-		
 		
 		var buttonBar = new zim.Rectangle(450, 170, "#ccc");
 		buttonBar.x = -20;
@@ -107,22 +101,51 @@ var app = function(app) {
 		content2.addChild(food);
 		
 		var loveme = new createjs.Bitmap(preload.getResult("loveme"));
-		loveme.x = 140;
-		loveme.y = 115;
+		loveme.x = 100;
+		loveme.y = 80;
 		loveme.alpha = 0;
 
 		var feedme = new createjs.Bitmap(preload.getResult("feedme"));
-		feedme.x = 140;
-		feedme.y = 115;
+		feedme.x = 100;
+		feedme.y = 80;
 		feedme.alpha = 0;
+		
+		var yum = new createjs.Text("yum yum yum!", "bold 20px Arial", "#00CCCC");
+		yum.x = 110;
+		yum.y = 180;
+		yum.textBaseline = "alphabetic";
+		yum.alpha = 0;
+		content2.addChild(yum);
+		
+		var loveyou = new createjs.Text("I love you!", "bold 20px Arial", "#FF6666");
+		loveyou.x = 130;
+		loveyou.y = 180;
+		loveyou.textBaseline = "alphabetic";
+		loveyou.alpha = 0;
+		content2.addChild(loveyou);
 
 		love.addEventListener("click", handleClick);
 			function handleClick(event){
 			console.log("love me");
 			stage.addChild(loveme);
-			createjs.Tween.get(loveme).to({alpha: 1},500)
+			createjs.Tween.get(loveme, {loop: false}).to({alpha: 1},500)
 			.wait(300)
-			.to({scaleX: 1.5, scaleY: 1.5, alpha:0}, 500);
+			.to({scaleX: 1.5, scaleY: 1.5, alpha:0}, 500)
+			.to({scaleX: 1, scaleY: 1}, 500)
+			.call(complete);
+		function complete(){
+			createjs.Tween.get(loveyou).to({alpha:1},500)
+			.wait(1000)
+			.to({alpha:0},500)
+			.wait(1000)
+			.call(move);	
+			}
+		function move(){
+			createjs.Tween.get(pet)
+			.to({x:60}, 300)
+			.to({x:100}, 300)
+			.to({x:80}, 300);
+			}
 			createjs.Ticker.addEventListener("tick", stage);
 			stage.removeChild(feedme);
 		}
@@ -131,26 +154,37 @@ var app = function(app) {
 			function clicked(event){
 			console.log("feed me");
 			stage.addChild(feedme);
-			createjs.Tween.get(feedme).to({alpha:1},500)
+			createjs.Tween.get(feedme, {loop: false}).to({alpha:1},500)
 			.wait(300)
-			.to({scaleX: 1.5, scaleY: 1.5, alpha:0}, 500);
+			.to({scaleX: 1.5, scaleY: 1.5, alpha:0}, 500)
+			.to({scaleX: 1, scaleY: 1}, 500)
+			.call(complete);
+		function complete(){
+			createjs.Tween.get(yum).to({alpha:1},500)
+			.wait(1000)
+			.to({alpha:0},500)
+			.wait(1000)
+			.call(move);	
+			}
+		function move(){
+			createjs.Tween.get(pet)
+			.to({x:60}, 300)
+			.to({x:100}, 300)
+			.to({x:80}, 300);
+			}
 			createjs.Ticker.addEventListener("tick", stage);
 			stage.removeChild(loveme);
 		}
 
-		function tick(event) {
+		var tick = function (event) {
    			stage.update();   
 		}
 
-		/*function finishAnimation() {
-    		createjs.Ticker.removeEventListener("tick", stage);
-		}*/
-		
 		var petPage = [ 
 			{object: content2, marginLeft: 5, maxHeight: 100, width: 100, valign: "top"}
 		];
 		
-		var secondLayout = new zim.Layout(p.main, petPage, 10, "#ccc", true, null, stage);
+		var secondLayout = new zim.Layout(p.info, petPage, 10, "#FFF", true, null, stage);
 
 		layoutManager.add(secondLayout);
 		
