@@ -85,7 +85,7 @@ var app = function(app) {
 			console.log("moving");
 		});
 		
-		var buttonBar = new zim.Rectangle(450, 170, "#ccc");
+		var buttonBar = new zim.Rectangle(450, 170, "#222");
 		buttonBar.x = -20;
 		buttonBar.y = 560;
 		content2.addChild(buttonBar);
@@ -184,7 +184,7 @@ var app = function(app) {
 			{object: content2, marginLeft: 5, maxHeight: 100, width: 100, valign: "top"}
 		];
 		
-		var secondLayout = new zim.Layout(p.info, petPage, 10, "#FFF", true, null, stage);
+		var secondLayout = new zim.Layout(p.info, petPage, 10, "#FFFFCC", true, null, stage);
 
 		layoutManager.add(secondLayout);
 		
