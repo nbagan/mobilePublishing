@@ -37,7 +37,7 @@ var app = function(app) {
 		content.addChild(paw);
 		
 		var headline = new createjs.Bitmap(preload.getResult("headline"));
-		headline.x = 100;
+		headline.x = 105;
 		headline.y = 550;
 		content.addChild(headline);
 				
