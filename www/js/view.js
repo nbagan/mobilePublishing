@@ -101,13 +101,13 @@ var app = function(app) {
 		content2.addChild(food);
 		
 		var loveme = new createjs.Bitmap(preload.getResult("loveme"));
-		loveme.x = 100;
-		loveme.y = 80;
+		loveme.x = 110;
+		loveme.y = 120;
 		loveme.alpha = 0;
 
 		var feedme = new createjs.Bitmap(preload.getResult("feedme"));
-		feedme.x = 100;
-		feedme.y = 80;
+		feedme.x = 110;
+		feedme.y = 120;
 		feedme.alpha = 0;
 		
 		var yum = new createjs.Text("yum yum yum!", "bold 20px Arial", "#00CCCC");
